@@ -10,6 +10,6 @@ A robust **Task Management Application** built with **Python and Django**, desig
   - **User**: View & update assigned tasks, submit reports
   - **Admin**: Assign/manage tasks
   - **SuperAdmin**: Full control over users, admins, and tasks
-  - 
+  
 - 📊 **Custom Admin Panel** using HTML templates
 - 💾 **SQLite** database for quick setup
