@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f5f7;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+        }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #34495e;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .sidebar-menu li a:hover {
+            background-color: #34495e;
+        }
+        .sidebar-menu li.active a {
+            background-color: #3498db;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+        .stat-card.users {
+            background-color: #3498db;
+        }
+        .stat-card.groups {
+            background-color: #2ecc71;
+        }
+        .stat-card.tasks {
+            background-color: #e74c3c;
+        }
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <p>Welcome, {{ request.user.username }}</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'admin_group_list' %}">Groups</a></li>
+                <li><a href="{% url 'admin_user_list' %}">Users</a></li>
+                <li><a href="{% url 'admin_task_list' %}">Tasks</a></li>
+                <li><a href="/admin/logout/">Logout</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header">Overview</div>
+                <div class="stats-grid">
+                    <div class="stat-card users">
+                        <div class="stat-label">Users</div>
+                        <div class="stat-value">{{ user_count }}</div>
+                        <a href="{% url 'admin_user_list' %}" style="color: white;">View All</a>
+                    </div>
+                    <div class="stat-card groups">
+                        <div class="stat-label">Groups</div>
+                        <div class="stat-value">{{ group_count }}</div>
+                        <a href="{% url 'admin_group_list' %}" style="color: white;">View All</a>
+                    </div>
+                    <div class="stat-card tasks">
+                        <div class="stat-label">Tasks</div>
+                        <div class="stat-value">{{ task_count }}</div>
+                        <a href="{% url 'admin_task_list' %}" style="color: white;">View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Quick Actions</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <a href="{% url 'admin_create_user' %}" style="padding: 10px; background: #3498db; color: white; text-align: center; border-radius: 4px; text-decoration: none;">Create User</a>
+                    <a href="{% url 'admin_group_create' %}" style="padding: 10px; background: #2ecc71; color: white; text-align: center; border-radius: 4px; text-decoration: none;">Create Group</a>
+                    <a href="{% url 'admin_assign_task' %}" style="padding: 10px; background: #e74c3c; color: white; text-align: center; border-radius: 4px; text-decoration: none;">Assign Task</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

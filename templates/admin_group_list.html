@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .header-actions {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .create-user-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .create-user-btn:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            color: #0078d7;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .messages {
+            margin: 10px 0;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-back {
+           display: inline-block;
+           background-color: #4169E1;
+           color: white;
+           padding: 10px 15px;
+           border-radius: 4px;
+           text-decoration: none;
+           transition: background-color 0.3s ease;
+       }
+
+       .btn-back:hover {
+           background-color: #191970;
+       }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Groups</h1>
+           <div class="header-actions">
+                <a href="{% url 'admin_group_create' %}" class="create-user-btn">Create Group</a>
+           </div>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <th style="padding: 12px; text-align: left;">Name</th>
+                        <th style="padding: 12px; text-align: left;">Users</th>
+                        <th style="padding: 12px; text-align: left;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 12px;">{{ group.name }}</td>
+                        <td style="padding: 12px;">{{ group.user_set.count }}</td>
+                        <td style="padding: 12px;">
+                            <a href="{% url 'admin_group_delete' group.id %}" style="color: #e74c3c; text-decoration: none;">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+       <a href="{% url 'admin_dashboard' %}" style="margin-top: 20px;" class="btn-back">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, textarea, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .task-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Task</h1>
+
+        <div class="task-info">
+            <p><strong>Title:</strong> {{ task.title }}</p>
+            <p><strong>Description:</strong> {{ task.description }}</p>
+            <p><strong>Due Date:</strong> {{ task.due_date|date:"M d, Y H:i" }}</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="status" class="required-field">Status</label>
+                <select id="status" name="status" required>
+                    <option value="Pending" {% if task.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="completion-report-group"
+                 style="display: {% if task.status == 'Completed' %}block{% else %}none{% endif %};">
+                <label for="completion_report" class="required-field">Completion Report</label>
+                <textarea id="completion_report" name="completion_report">{% if task.completion_report %}{{ task.completion_report }}{% endif %}</textarea>
+            </div>
+
+            <div class="form-group" id="worked-hours-group"
+                 style="display: {% if task.status == 'Completed' %}block{% else %}none{% endif %};">
+                <label for="worked_hours" class="required-field">Worked Hours</label>
+                <input type="number" id="worked_hours" name="worked_hours" step="0.01"
+                       value="{% if task.worked_hours %}{{ task.worked_hours }}{% endif %}">
+            </div>
+
+            <button type="submit">Update Task</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('status').addEventListener('change', function() {
+            const isCompleted = this.value === 'Completed';
+            document.getElementById('completion-report-group').style.display = isCompleted ? 'block' : 'none';
+            document.getElementById('worked-hours-group').style.display = isCompleted ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
